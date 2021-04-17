@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Chess</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="main.js"></script>
+        <script src="calc.js"></script>
+    </head>
+    <body onselectstart="return false">
+        <div class="pieces-deck" id="black-deck">
+        </div>
+        <div id="chess-board-container"></div>
+        <div class="pieces-deck" id="white-deck">
+        </div>
+
+        <div class="exchangePawn-pieces-deck" id="exchangeBlackPawn-div">
+            <!-- black queen -->
+            <div onclick="exchangePiece('queen','black')">&#9819;</div>
+            <!-- black rook -->
+            <div onclick="exchangePiece('rook','black')">&#9820;</div>
+            <!-- black bishop -->
+            <div onclick="exchangePiece('bishop','black')">&#9821;</div>
+            <!-- black knight -->
+            <div onclick="exchangePiece('knight','black')">&#9822;</div>
+        </div>
+
+        <div class="exchangePawn-pieces-deck" id="exchangeBlackPawn-div">
+            <!-- black queen -->
+            <div onclick="exchangePiece('queen','white')">&#9813;</div>
+            <!-- black rook -->
+            <div onclick="exchangePiece('rook','white')">&#9814;</div>
+            <!-- black bishop -->
+            <div onclick="exchangePiece('bishop','white')">&#9815;</div>
+            <!-- black knight -->
+            <div onclick="exchangePiece('knight','white')">&#9816;</div>
+        </div>
+
+        <div id="currPlayerStat"> &#11044; </div>
+    </body>
+</html>
