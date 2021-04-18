@@ -26,12 +26,15 @@ td {
 }
 
 .pieces-deck > div{
+    position: absolute;
+    bottom: 0;
     display: inline-block;
-    font-size: xxx-large;
+    font-size: x-large;
     cursor: pointer;
 }
 
 .pieces-deck {
+    position: relative;
     text-align: center;
     min-height: 5em !important;
     height: 5em !important;
@@ -68,4 +71,17 @@ td {
 
 .piece-in-danger {
     text-shadow: 0px 8px 10px red;
+}
+
+.header {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: xxx-large;
+    color: #402c2c;
+}
+
+
+body {
+    background: #ece7e7;
 }
