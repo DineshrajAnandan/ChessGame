@@ -111,7 +111,7 @@ function calcPawnMove(posX, posY) {
         if (posX == 6 && !document.getElementById(`${posX - 2}-${posY}`).innerText)
             possibleMovesArr.push(`${posX - 2}-${posY}`);
     }
-    
+
     plotPossibleCell(possibleMovesArr);
 }
 
@@ -119,27 +119,27 @@ function checkPawnCapture(posX, posY) {
     let targetPositionContent = ''
     if (currPlayerWhite) {
         //x-1, y-1
-        targetPositionContent = posY != 0 ? 
-            document.getElementById(`${posX - 1}-${posY-1}`).innerText : '';
+        targetPositionContent = posY != 0 ?
+            document.getElementById(`${posX - 1}-${posY - 1}`).innerText : '';
         if (blackPieceCharCodes.includes(targetPositionContent.charCodeAt(0)))
-            dangerPiecesPositionIdArr.push(`${posX - 1}-${posY-1}`);
+            dangerPiecesPositionIdArr.push(`${posX - 1}-${posY - 1}`);
         // x-1, y+1
-        targetPositionContent = posY != 7 ? 
-            document.getElementById(`${posX - 1}-${posY+1}`).innerText : '';
+        targetPositionContent = posY != 7 ?
+            document.getElementById(`${posX - 1}-${posY + 1}`).innerText : '';
         if (blackPieceCharCodes.includes(targetPositionContent.charCodeAt(0)))
-            dangerPiecesPositionIdArr.push(`${posX - 1}-${posY+1}`);
+            dangerPiecesPositionIdArr.push(`${posX - 1}-${posY + 1}`);
     }
     else {
         //x+1, y-1
-        targetPositionContent = posY != 0 ? 
-            document.getElementById(`${posX + 1}-${posY-1}`).innerText : '';
+        targetPositionContent = posY != 0 ?
+            document.getElementById(`${posX + 1}-${posY - 1}`).innerText : '';
         if (whitePieceCharCodes.includes(targetPositionContent.charCodeAt(0)))
-            dangerPiecesPositionIdArr.push(`${posX + 1}-${posY-1}`);
+            dangerPiecesPositionIdArr.push(`${posX + 1}-${posY - 1}`);
         // x+1, y+1
-        targetPositionContent = posY != 7 ? 
-            document.getElementById(`${posX + 1}-${posY+1}`).innerText : '';
+        targetPositionContent = posY != 7 ?
+            document.getElementById(`${posX + 1}-${posY + 1}`).innerText : '';
         if (whitePieceCharCodes.includes(targetPositionContent.charCodeAt(0)))
-            dangerPiecesPositionIdArr.push(`${posX + 1}-${posY+1}`);
+            dangerPiecesPositionIdArr.push(`${posX + 1}-${posY + 1}`);
     }
 
 }

@@ -118,6 +118,8 @@ function addCellClickEvent(elem, posX, posY) {
 
 		let elemId = `${posX}-${posY}`;
 		if (dangerPiecesPositionIdArr.includes(elemId)) {
+			let removePiece = document.getElementById(elemId).innerText;
+			addRemovedPieceToDeck(removePiece.charCodeAt(0));
 			changeCurrentPlayerStatus();
 			movePiece(`${posX}-${posY}`);
 			dangerPiecesPositionIdArr = [];
@@ -191,6 +193,20 @@ function addCellClickEvent(elem, posX, posY) {
 
 		plotDangerCells();
 	});
+}
+
+function addRemovedPieceToDeck(charCode) {
+	if (blackPieceCharCodes.includes(charCode)) {
+		document.getElementById('black-deck').innerHTML += `&#${charCode};`;
+	}
+	else {
+		document.getElementById('white-deck').innerHTML += `&#${charCode};`
+	}
+}
+
+function clearPiecesDeck() {
+	document.getElementById('black-deck').innerHTML = '';
+	document.getElementById('white-deck').innerHTML = '';
 }
 
 function changeCurrentPlayerStatus() {
@@ -289,8 +305,8 @@ function plotDangerCells() {
 
 function clearDangerCellsPlot() {
 	let elems = document.querySelectorAll('.danger-cell');
-	if(elems && elems.length > 0) {
-		for(let i=0; i< elems.length; i++) {
+	if (elems && elems.length > 0) {
+		for (let i = 0; i < elems.length; i++) {
 			elems.item(i).classList.remove('danger-cell');
 		}
 	}

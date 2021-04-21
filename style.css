@@ -25,26 +25,27 @@ td {
     box-shadow: 2px 2px 10px black;
 }
 
-.pieces-deck > div{
-    position: absolute;
-    bottom: 0;
-    display: inline-block;
+.pieces-deck > div  {
     font-size: x-large;
-    cursor: pointer;
 }
 
 .pieces-deck {
+    margin-top: 2em;
     position: relative;
     text-align: center;
     min-height: 5em !important;
     height: 5em !important;
 }
 
+.head-space {
+    min-height: 3em !important;
+    height: 3em !important;
+}
+
 .chess-cell {
     margin: auto;
     font-size: xx-large;
     text-align: center;
-    /* text-shadow: 1px 1px 30px white; */
 }
 
 .chess-cell-div {
