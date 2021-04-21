@@ -40,10 +40,14 @@ function renderChessBoard() {
 		let tr = document.createElement('tr');
 		for (let j = 0; j < 8; j++) {
 			let td = document.createElement('td');
-			td.id = `${i}-${j}`;
+			let tddiv = document.createElement('div');
+			tddiv.id = `${i}-${j}`;
+			tddiv.className = 'chess-cell-div';
 			td.className = 'chess-cell';
 			td.style.background = (i + j) % 2 == 0 ? '#8a7979' : '#ece7e7'; //black: white
 			// '#645656':'#ece7e7';
+
+			td.appendChild(tddiv);
 			tr.appendChild(td);
 			addCellClickEvent(td, i, j);
 		}
@@ -90,7 +94,7 @@ function rearrangePieces() {
 }
 
 function clearBoard() {
-	document.querySelectorAll('.chess-cell').forEach((elem) => {
+	document.querySelectorAll('.chess-cell-div').forEach((elem) => {
 		elem.innerHTML = '';
 	});
 }
@@ -108,6 +112,7 @@ function addCellClickEvent(elem, posX, posY) {
 		let text = elem.innerText;
 		clearCellHighlights();
 		clearCircles();
+		clearDangerCellsPlot();
 
 		let charCode = text.charCodeAt(0);
 
@@ -128,6 +133,7 @@ function addCellClickEvent(elem, posX, posY) {
 			}
 			return;
 		}
+		dangerPiecesPositionIdArr = [];
 
 		if (blackPieceCharCodes.includes(charCode)) {
 			if (currPlayerWhite) return;
@@ -183,7 +189,7 @@ function addCellClickEvent(elem, posX, posY) {
 				break;
 		}
 
-
+		plotDangerCells();
 	});
 }
 
@@ -271,6 +277,21 @@ function clearCircles() {
 				elem.innerText = '';
 				elem.classList.remove('possible-cell');
 			}
+		}
+	}
+}
+
+function plotDangerCells() {
+	dangerPiecesPositionIdArr.forEach(id => {
+		document.getElementById(id).classList.add('danger-cell');
+	});
+}
+
+function clearDangerCellsPlot() {
+	let elems = document.querySelectorAll('.danger-cell');
+	if(elems && elems.length > 0) {
+		for(let i=0; i< elems.length; i++) {
+			elems.item(i).classList.remove('danger-cell');
 		}
 	}
 }

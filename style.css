@@ -47,8 +47,22 @@ td {
     /* text-shadow: 1px 1px 30px white; */
 }
 
+.chess-cell-div {
+    margin: auto;
+    font-size: xx-large;
+    text-align: center;
+    width: 85%;
+    height: 85%;
+}
+
+.danger-cell {
+    border: 3px solid #ccbdbd;
+    border-radius: 50px;
+}
+
  .possible-cell {
-    font-size: larger;
+    display: inline;
+    font-size: large;
     text-shadow: 1px 1px 30px black;
     color: #b0a8a8 !important;
 } 
