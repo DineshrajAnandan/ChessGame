@@ -119,99 +119,132 @@ function plotPossibleCell(possibleMovesArr) {
 
 function addCellClickEvent(elem, posX, posY) {
 	elem.addEventListener('click', () => {
-		if (restrictClick) return;
-		let text = elem.innerText;
-		clearCellHighlights();
-		clearCircles();
-		clearDangerCellsPlot();
+		clickHandle(elem, posX, posY);
+	});
+}
 
-		let charCode = text.charCodeAt(0);
+function clickHandle(elem, posX, posY) {
+	if (restrictClick) return;
+	let charCode = elem.innerText.charCodeAt(0);
 
-		let elemId = `${posX}-${posY}`;
-		if (dangerPiecesPositionIdArr.includes(elemId)) {
-			let removePiece = document.getElementById(elemId).innerText;
-			let won = checkWinning(removePiece.charCodeAt(0));
-			if (won) {
-				document.getElementById('head-win-stat').innerText = `${wonBy} Won`;
-				restrictClick = true;
-				return;
-			}
-			addRemovedPieceToDeck(removePiece.charCodeAt(0));
-			currPlayerWhite = !currPlayerWhite;
-			changeCurrentPlayerStatus();
-			movePiece(`${posX}-${posY}`);
-			dangerPiecesPositionIdArr = [];
-			if (selectedPieceCharCode == charCodeDict.pawnWhite && posX == 0) {
-				whiteExchangePosY = posY;
-				exchangeWhitePawn();
-				return;
-			}
-			if (selectedPieceCharCode == charCodeDict.pawnBlack && posX == 7) {
-				blackExchangePosY = posY;
-				exchangeBlackPawn();
-				return;
-			}
-			return;
+	clearCellHighlights();
+	clearCircles();
+	clearDangerCellsPlot();
+
+	let dangerPicked = checkDangerPiecePick(posX, posY);
+	if (dangerPicked) return;
+
+	let isInvalid = checkSelectedPiece(posX, posY, charCode);
+	if (isInvalid) return;
+
+	let moved = moveDecision(posX, posY, charCode);
+	if (moved) return;
+
+	chooseCalcMethod(posX, posY, charCode);
+	plotDangerCells();
+}
+
+function checkSelectedPiece(posX, posY, charCode) {
+	if (blackPieceCharCodes.includes(charCode)) {
+		if (currPlayerWhite) return true;
+		highlightSelectedPiece(posX, posY);
+		selectedPieceCharCode = charCode;
+		selectedPieceCellId = `${posX}-${posY}`;
+		selectedPieceColor = 'black';
+	}
+	else if (whitePieceCharCodes.includes(charCode)) {
+		if (!currPlayerWhite) return true;
+		highlightSelectedPiece(posX, posY);
+		selectedPieceCharCode = charCode;
+		selectedPieceCellId = `${posX}-${posY}`;
+		selectedPieceColor = 'white';
+	}
+	return false;
+}
+
+function checkDangerPiecePick(posX, posY) {
+	let elemId = `${posX}-${posY}`;
+	if (dangerPiecesPositionIdArr.includes(elemId)) {
+		let removePiece = document.getElementById(elemId).innerText;
+
+		if (checkWinning(removePiece.charCodeAt(0))) {
+			handleWin();
+			return true;
 		}
+
+		addRemovedPieceToDeck(removePiece.charCodeAt(0));
+		currPlayerWhite = !currPlayerWhite;
+		changeCurrentPlayerStatus();
+		movePiece(`${posX}-${posY}`);
 		dangerPiecesPositionIdArr = [];
 
-		if (blackPieceCharCodes.includes(charCode)) {
-			if (currPlayerWhite) return;
-			highlightSelectedPiece(elem);
-			selectedPieceCharCode = charCode;
-			selectedPieceCellId = `${posX}-${posY}`;
-			selectedPieceColor = 'black';
-		}
-		else if (whitePieceCharCodes.includes(charCode)) {
-			if (!currPlayerWhite) return;
-			highlightSelectedPiece(elem);
-			selectedPieceCharCode = charCode;
-			selectedPieceCellId = `${posX}-${posY}`;
-			selectedPieceColor = 'white';
-		}
+		checkPawnExchange(posX, posY);
+		return true;
+	}
+	dangerPiecesPositionIdArr = [];
+	return false;
+}
 
-		if (charCode == charCodeDict.circleBlack) {
-			currPlayerWhite = !currPlayerWhite;
-			changeCurrentPlayerStatus();
+function handleWin() {
+	document.getElementById('head-win-stat').innerText = `${wonBy} Won`;
+	restrictClick = true;
+}
 
-			if (selectedPieceCharCode == charCodeDict.pawnBlack && posX == 7) {
-				blackExchangePosY = posY;
-				exchangeBlackPawn();
-				return;
-			}
-			movePiece(`${posX}-${posY}`);
-			return;
-		}
+function moveDecision(posX, posY, charCode) {
+	if (charCode == charCodeDict.circleBlack) {
+		currPlayerWhite = !currPlayerWhite;
+		changeCurrentPlayerStatus();
 
-		switch (charCode) {
-			case charCodeDict.kingBlack:
-			case charCodeDict.kingWhite:
-				calcKingMove(posX, posY);
-				break;
-			case charCodeDict.queenBlack:
-			case charCodeDict.queenWhite:
-				calcQueenMove(posX, posY);
-				break;
-			case charCodeDict.bishopBlack:
-			case charCodeDict.bishopWhite:
-				calcBishopMove(posX, posY);
-				break;
-			case charCodeDict.rookBlack:
-			case charCodeDict.rookWhite:
-				calcRookMove(posX, posY);
-				break;
-			case charCodeDict.knightBlack:
-			case charCodeDict.knightWhite:
-				calcKnightMove(posX, posY);
-				break;
-			case charCodeDict.pawnBlack:
-			case charCodeDict.pawnWhite:
-				calcPawnMove(posX, posY);
-				break;
-		}
+		let exchangeOpen = checkPawnExchange(posX, posY);
+		if (exchangeOpen) return true;
 
-		plotDangerCells();
-	});
+		movePiece(`${posX}-${posY}`);
+		return true;
+	}
+	return false;
+}
+
+function checkPawnExchange(posX, posY) {
+	if (selectedPieceCharCode == charCodeDict.pawnBlack && posX == 7) {
+		blackExchangePosY = posY;
+		exchangeBlackPawn();
+		return true;
+	}
+	if (selectedPieceCharCode == charCodeDict.pawnWhite && posX == 0) {
+		whiteExchangePosY = posY;
+		exchangeWhitePawn();
+		return true;
+	}
+	return false;
+}
+
+function chooseCalcMethod(posX, posY, charCode) {
+	switch (charCode) {
+		case charCodeDict.kingBlack:
+		case charCodeDict.kingWhite:
+			calcKingMove(posX, posY);
+			break;
+		case charCodeDict.queenBlack:
+		case charCodeDict.queenWhite:
+			calcQueenMove(posX, posY);
+			break;
+		case charCodeDict.bishopBlack:
+		case charCodeDict.bishopWhite:
+			calcBishopMove(posX, posY);
+			break;
+		case charCodeDict.rookBlack:
+		case charCodeDict.rookWhite:
+			calcRookMove(posX, posY);
+			break;
+		case charCodeDict.knightBlack:
+		case charCodeDict.knightWhite:
+			calcKnightMove(posX, posY);
+			break;
+		case charCodeDict.pawnBlack:
+		case charCodeDict.pawnWhite:
+			calcPawnMove(posX, posY);
+			break;
+	}
 }
 
 function checkWinning(removePieceCharCode) {
@@ -247,8 +280,8 @@ function changeCurrentPlayerStatus() {
 		document.getElementById('currPlayerStat').style.color = "black";
 }
 
-function highlightSelectedPiece(elem) {
-	elem.classList.add('cell-selected');
+function highlightSelectedPiece(posX, posY) {
+	document.getElementById(`${posX}-${posY}`).classList.add('cell-selected');
 }
 
 function exchangeBlackPawn() {
