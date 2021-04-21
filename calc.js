@@ -133,12 +133,12 @@ function checkPawnCapture(posX, posY) {
         //x+1, y-1
         targetPositionContent = posY != 0 ? 
             document.getElementById(`${posX + 1}-${posY-1}`).innerText : '';
-        if (blackPieceCharCodes.includes(targetPositionContent.charCodeAt(0)))
+        if (whitePieceCharCodes.includes(targetPositionContent.charCodeAt(0)))
             dangerPiecesPositionIdArr.push(`${posX + 1}-${posY-1}`);
         // x+1, y+1
         targetPositionContent = posY != 7 ? 
             document.getElementById(`${posX + 1}-${posY+1}`).innerText : '';
-        if (blackPieceCharCodes.includes(targetPositionContent.charCodeAt(0)))
+        if (whitePieceCharCodes.includes(targetPositionContent.charCodeAt(0)))
             dangerPiecesPositionIdArr.push(`${posX + 1}-${posY+1}`);
     }
 
