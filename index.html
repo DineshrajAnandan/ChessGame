@@ -10,16 +10,17 @@
 <body onselectstart="return false">
     <div class="header">
         &#9818;
+        <span id="reset-board" onclick="rearrangePieces()">&#11118;</span>
     </div>
-    <div class="head-space">
+    <div class="head-space" id="head-win-stat">
     </div>
     <div id="chess-board-container"></div>
     <div class="pieces-deck">
         <div id="black-deck">
-            
+
         </div>
         <div id="white-deck">
-            
+
         </div>
     </div>
 
@@ -46,6 +47,7 @@
     </div>
 
     <div id="currPlayerStat"> &#11044; </div>
+
 </body>
 
 </html>

@@ -171,31 +171,22 @@ function calcRowColMovePossibilities(posX, posY) {
     // row move possibility
     for (let i = posX + 1; i < 8; i++) {
         if (!validatePosition(i, posY)) break;
-        // if (!!document.getElementById(`${i}-${posY}`).innerText) break;
         possibleMovesArr.push(`${i}-${posY}`);
     }
     for (let i = posX - 1; i >= 0; i--) {
         if (!validatePosition(i, posY)) break;
-        // if (!!document.getElementById(`${i}-${posY}`).innerText) break;
         possibleMovesArr.push(`${i}-${posY}`);
     }
-    // for (let i = 0; i < 8; i++) {
-    //     if (i != posX) possibleMovesArr.push(`${i}-${posY}`);
-    // }
+
     // col move possibility
     for (let i = posY + 1; i < 8; i++) {
         if (!validatePosition(posX, i)) break;
-        // if (!!document.getElementById(`${posX}-${i}`).innerText) break;
         possibleMovesArr.push(`${posX}-${i}`);
     }
     for (let i = posY - 1; i >= 0; i--) {
         if (!validatePosition(posX, i)) break;
-        // if (!!document.getElementById(`${posX}-${i}`).innerText) break;
         possibleMovesArr.push(`${posX}-${i}`);
     }
-    // for (let i = 0; i < 8; i++) {
-    //     if (i != posY) possibleMovesArr.push(`${posX}-${i}`);
-    // }
     return possibleMovesArr;
 }
 
@@ -204,24 +195,20 @@ function calcDiagonalMovePossibilities(posX, posY) {
     // back diagonal move possibility
     for (let i = posX + 1, j = posY - 1; i < 8 && j >= 0; i++, j--) {
         if (!validatePosition(i, j)) break;
-        // if (!!document.getElementById(`${i}-${j}`).innerText) break;
         possibleMovesArr.push(`${i}-${j}`);
     }
     for (let i = posX - 1, j = posY + 1; i >= 0 && j < 8; i--, j++) {
         if (!validatePosition(i, j)) break;
-        // if (!!document.getElementById(`${i}-${j}`).innerText) break;
         possibleMovesArr.push(`${i}-${j}`);
     }
 
     // front diagonal move possibility
     for (let i = posX + 1, j = posY + 1; i < 8 && j < 8; i++, j++) {
         if (!validatePosition(i, j)) break;
-        // if (!!document.getElementById(`${i}-${j}`).innerText) break;
         possibleMovesArr.push(`${i}-${j}`);
     }
     for (let i = posX - 1, j = posY - 1; i >= 0 && j >= 0; i--, j--) {
         if (!validatePosition(i, j)) break;
-        // if (!!document.getElementById(`${i}-${j}`).innerText) break;
         possibleMovesArr.push(`${i}-${j}`);
     }
 

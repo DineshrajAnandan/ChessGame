@@ -1,102 +1,117 @@
 table {
-    border-collapse: separate;
-    margin: auto;
-    box-shadow: 2px 2px 10px black;
+  border-collapse: separate;
+  margin: auto;
+  box-shadow: 2px 2px 10px black;
+}
+
+body {
+  background: #ece7e7;
+  overflow: hidden;
 }
 
 #chess-board-container {
-    background: #ece7e7;
+  background: #ece7e7;
 }
 
 td {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
 
 .exchangePawn-pieces-deck {
-    visibility: hidden;
-    position: absolute;
-    left: 45%;
-    top: 40%;
-    font-size: xx-large;
-    border-radius: 5px;
-    background: #eae2e2;
-    padding: 0.2em;
-    box-shadow: 2px 2px 10px black;
+  visibility: hidden;
+  position: absolute;
+  left: 45%;
+  top: 40%;
+  font-size: xx-large;
+  border-radius: 5px;
+  background: #eae2e2;
+  padding: 0.2em;
+  box-shadow: 2px 2px 10px black;
 }
 
-.pieces-deck > div  {
-    font-size: x-large;
+.pieces-deck > div {
+  font-size: x-large;
 }
 
 .pieces-deck {
-    margin-top: 2em;
-    position: relative;
-    text-align: center;
-    min-height: 5em !important;
-    height: 5em !important;
+  margin-top: 2em;
+  position: relative;
+  text-align: center;
+  min-height: 5em !important;
+  height: 5em !important;
 }
 
 .head-space {
-    min-height: 3em !important;
-    height: 3em !important;
+  min-height: 3em !important;
+  height: 3em !important;
+  font-size: x-large;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #473b3b;
+  text-align: center;
+  text-shadow: 1px 1px 2px;
 }
 
 .chess-cell {
-    margin: auto;
-    font-size: xx-large;
-    text-align: center;
+  margin: auto;
+  font-size: xx-large;
+  text-align: center;
 }
 
 .chess-cell-div {
-    margin: auto;
-    font-size: xx-large;
-    text-align: center;
-    width: 85%;
-    height: 85%;
+  margin: auto;
+  font-size: xx-large;
+  text-align: center;
+  width: 85%;
+  height: 85%;
 }
 
 .danger-cell {
-    border: 3px solid #ccbdbd;
-    border-radius: 50px;
+  border: 3px solid #ccbdbd;
+  border-radius: 50px;
 }
 
- .possible-cell {
-    display: inline;
-    font-size: large;
-    text-shadow: 1px 1px 30px black;
-    color: #b0a8a8 !important;
-} 
+.possible-cell {
+  display: inline;
+  font-size: large;
+  text-shadow: 1px 1px 30px black;
+  color: #b0a8a8 !important;
+}
 
 .cell-selected {
-    text-shadow: 1px 1px 30px #ff5722;
+  text-shadow: 1px 1px 30px #ff5722;
 }
 
 #currPlayerStat {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    box-shadow: 1px 1px 5px black;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: xx-large;
-    text-shadow: 1px 1px 30px black;
-    color: white;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  box-shadow: 1px 1px 5px black;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: xx-large;
+  text-shadow: 1px 1px 30px black;
+  color: white;
 }
 
 .piece-in-danger {
-    text-shadow: 0px 8px 10px red;
+  text-shadow: 0px 8px 10px red;
 }
 
 .header {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    font-size: xxx-large;
-    color: #402c2c;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: xxx-large;
+  color: #402c2c;
 }
 
-
-body {
-    background: #ece7e7;
+#reset-board {
+  border: 2px solid #402c2c;
+  border-radius: 5px;
+  cursor: pointer;
+  padding-left: 5px;
+  padding-right: 5px;
 }

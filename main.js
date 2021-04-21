@@ -32,6 +32,8 @@ let blackExchangePosY = 0;
 let whiteExchangePosY = 0;
 let currPlayerWhite = true;
 let dangerPiecesPositionIdArr = [];
+let wonBy = '';
+let restrictClick = false;
 
 function renderChessBoard() {
 	document.querySelector('div#chess-board-container').innerHTML = '';
@@ -45,7 +47,6 @@ function renderChessBoard() {
 			tddiv.className = 'chess-cell-div';
 			td.className = 'chess-cell';
 			td.style.background = (i + j) % 2 == 0 ? '#8a7979' : '#ece7e7'; //black: white
-			// '#645656':'#ece7e7';
 
 			td.appendChild(tddiv);
 			tr.appendChild(td);
@@ -57,8 +58,17 @@ function renderChessBoard() {
 	rearrangePieces();
 }
 
+function clearHeadSpace() {
+	document.getElementById('head-win-stat').innerText = '';
+}
+
 function rearrangePieces() {
 	clearBoard();
+	clearPiecesDeck();
+	currPlayerWhite = true;
+	changeCurrentPlayerStatus();
+	clearHeadSpace();
+	restrictClick = false;
 
 	//arrange black pieces
 	document.getElementById('0-0').innerHTML = `&#${charCodeDict.rookBlack};`;
@@ -109,6 +119,7 @@ function plotPossibleCell(possibleMovesArr) {
 
 function addCellClickEvent(elem, posX, posY) {
 	elem.addEventListener('click', () => {
+		if (restrictClick) return;
 		let text = elem.innerText;
 		clearCellHighlights();
 		clearCircles();
@@ -119,7 +130,14 @@ function addCellClickEvent(elem, posX, posY) {
 		let elemId = `${posX}-${posY}`;
 		if (dangerPiecesPositionIdArr.includes(elemId)) {
 			let removePiece = document.getElementById(elemId).innerText;
+			let won = checkWinning(removePiece.charCodeAt(0));
+			if (won) {
+				document.getElementById('head-win-stat').innerText = `${wonBy} Won`;
+				restrictClick = true;
+				return;
+			}
 			addRemovedPieceToDeck(removePiece.charCodeAt(0));
+			currPlayerWhite = !currPlayerWhite;
 			changeCurrentPlayerStatus();
 			movePiece(`${posX}-${posY}`);
 			dangerPiecesPositionIdArr = [];
@@ -153,6 +171,7 @@ function addCellClickEvent(elem, posX, posY) {
 		}
 
 		if (charCode == charCodeDict.circleBlack) {
+			currPlayerWhite = !currPlayerWhite;
 			changeCurrentPlayerStatus();
 
 			if (selectedPieceCharCode == charCodeDict.pawnBlack && posX == 7) {
@@ -195,6 +214,18 @@ function addCellClickEvent(elem, posX, posY) {
 	});
 }
 
+function checkWinning(removePieceCharCode) {
+	if (removePieceCharCode == charCodeDict.kingBlack) {
+		wonBy = 'White';
+		return true;
+	}
+	else if (removePieceCharCode == charCodeDict.kingWhite) {
+		wonBy = 'Black';
+		return true;
+	}
+	return false;
+}
+
 function addRemovedPieceToDeck(charCode) {
 	if (blackPieceCharCodes.includes(charCode)) {
 		document.getElementById('black-deck').innerHTML += `&#${charCode};`;
@@ -210,7 +241,6 @@ function clearPiecesDeck() {
 }
 
 function changeCurrentPlayerStatus() {
-	currPlayerWhite = !currPlayerWhite;
 	if (currPlayerWhite)
 		document.getElementById('currPlayerStat').style.color = "white";
 	else
