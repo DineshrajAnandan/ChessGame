@@ -29,7 +29,9 @@ let selectedPieceCharCode = '';
 let selectedPieceCellId = '';
 let selectedPieceColor = '';
 let blackExchangePosY = 0;
+let whiteExchangePosY = 0;
 let currPlayerWhite = true;
+let dangerPiecesPositionIdArr = [];
 
 function renderChessBoard() {
 	document.querySelector('div#chess-board-container').innerHTML = '';
@@ -108,15 +110,34 @@ function addCellClickEvent(elem, posX, posY) {
 		clearCircles();
 
 		let charCode = text.charCodeAt(0);
+
+		let elemId = `${posX}-${posY}`;
+		if (dangerPiecesPositionIdArr.includes(elemId)) {
+			changeCurrentPlayerStatus();
+			movePiece(`${posX}-${posY}`);
+			dangerPiecesPositionIdArr = [];
+			if (selectedPieceCharCode == charCodeDict.pawnWhite && posX == 0) {
+				whiteExchangePosY = posY;
+				exchangeWhitePawn();
+				return;
+			}
+			if (selectedPieceCharCode == charCodeDict.pawnBlack && posX == 7) {
+				blackExchangePosY = posY;
+				exchangeBlackPawn();
+				return;
+			}
+			return;
+		}
+
 		if (blackPieceCharCodes.includes(charCode)) {
-			if(currPlayerWhite) return;
+			if (currPlayerWhite) return;
 			highlightSelectedPiece(elem);
 			selectedPieceCharCode = charCode;
 			selectedPieceCellId = `${posX}-${posY}`;
 			selectedPieceColor = 'black';
 		}
 		else if (whitePieceCharCodes.includes(charCode)) {
-			if(!currPlayerWhite) return;
+			if (!currPlayerWhite) return;
 			highlightSelectedPiece(elem);
 			selectedPieceCharCode = charCode;
 			selectedPieceCellId = `${posX}-${posY}`;
@@ -124,11 +145,7 @@ function addCellClickEvent(elem, posX, posY) {
 		}
 
 		if (charCode == charCodeDict.circleBlack) {
-			currPlayerWhite = !currPlayerWhite;
-			if (currPlayerWhite)
-				document.getElementById('currPlayerStat').style.color = "white";
-			else 
-				document.getElementById('currPlayerStat').style.color = "black";
+			changeCurrentPlayerStatus();
 
 			if (selectedPieceCharCode == charCodeDict.pawnBlack && posX == 7) {
 				blackExchangePosY = posY;
@@ -166,8 +183,16 @@ function addCellClickEvent(elem, posX, posY) {
 				break;
 		}
 
-		
+
 	});
+}
+
+function changeCurrentPlayerStatus() {
+	currPlayerWhite = !currPlayerWhite;
+	if (currPlayerWhite)
+		document.getElementById('currPlayerStat').style.color = "white";
+	else
+		document.getElementById('currPlayerStat').style.color = "black";
 }
 
 function highlightSelectedPiece(elem) {
@@ -176,6 +201,10 @@ function highlightSelectedPiece(elem) {
 
 function exchangeBlackPawn() {
 	document.getElementById('exchangeBlackPawn-div').style.visibility = 'visible';
+}
+
+function exchangeWhitePawn() {
+	document.getElementById('exchangeWhitePawn-div').style.visibility = 'visible';
 }
 
 function exchangePiece(piece, pieceColor) {
@@ -197,11 +226,28 @@ function exchangePiece(piece, pieceColor) {
 			selectedPieceCharCode = charCodeDict.knightBlack;
 			movePiece(`7-${blackExchangePosY}`);
 			break;
+		case 'queen-white':
+			selectedPieceCharCode = charCodeDict.queenWhite;
+			movePiece(`0-${whiteExchangePosY}`);
+			break;
+		case 'rook-white':
+			selectedPieceCharCode = charCodeDict.rookWhite;
+			movePiece(`0-${whiteExchangePosY}`);
+			break;
+		case 'bishop-white':
+			selectedPieceCharCode = charCodeDict.bishopWhite;
+			movePiece(`0-${whiteExchangePosY}`);
+			break;
+		case 'knight-white':
+			selectedPieceCharCode = charCodeDict.knightWhite;
+			movePiece(`0-${whiteExchangePosY}`);
+			break;
 	}
 }
 
 function hidePawnExchangeDiv() {
 	document.getElementById('exchangeBlackPawn-div').style.visibility = 'hidden';
+	document.getElementById('exchangeWhitePawn-div').style.visibility = 'hidden';
 }
 
 function clearCellHighlights() {
