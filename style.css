@@ -131,9 +131,9 @@ td {
 
 @media screen and (max-width: 525px) {
   td {
-    min-width: calc(100vw / 9) !important;;
-    min-height: calc(100vw / 9) !important;
-    width: calc(100vw / 9) !important;
-    height: calc(100vw / 9) !important;
+    min-width: calc(100vw / 10) !important;;
+    min-height: calc(100vw / 10) !important;
+    width: calc(100vw / 10) !important;
+    height: calc(100vw / 10) !important;
   }
 }
