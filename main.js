@@ -59,7 +59,9 @@ function renderChessBoard() {
 }
 
 function clearHeadSpace() {
-	document.getElementById('head-win-stat').innerText = '';
+	var elem = document.getElementById('head-win-stat');
+	elem.innerText = '';
+	elem.style.display = 'none';
 }
 
 function rearrangePieces() {
@@ -186,7 +188,9 @@ function checkDangerPiecePick(posX, posY) {
 }
 
 function handleWin() {
-	document.getElementById('head-win-stat').innerText = `${wonBy} Won`;
+	var elem = document.getElementById('head-win-stat');
+	elem.innerText = `${wonBy} Won`;
+	elem.style.display='block';
 	restrictClick = true;
 }
 
@@ -275,9 +279,9 @@ function clearPiecesDeck() {
 
 function changeCurrentPlayerStatus() {
 	if (currPlayerWhite)
-		document.getElementById('currPlayerStat').style.color = "white";
+		document.getElementById('currPlayerStat').style.backgroundColor = "white";
 	else
-		document.getElementById('currPlayerStat').style.color = "black";
+		document.getElementById('currPlayerStat').style.backgroundColor = "black";
 }
 
 function highlightSelectedPiece(posX, posY) {
